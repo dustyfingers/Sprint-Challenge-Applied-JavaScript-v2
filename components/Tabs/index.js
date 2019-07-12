@@ -6,7 +6,6 @@ function createDOMElement(type, classes = '', content = '') {
     return DOMElement;
 }
 
-
 // Step 2: Create Tabs
 // -----------------------
 // Using axios send a GET request to the address: https://lambda-times-backend.herokuapp.com/topics
@@ -16,8 +15,6 @@ function createDOMElement(type, classes = '', content = '') {
 //
 //  The tab component should look like this:
 //    <div class="tab">topic here</div>
-
-axios.get
 
 function Tab(topic) {
     let tabDiv = createDOMElement('div', 'tab', topic);

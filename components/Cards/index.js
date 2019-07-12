@@ -1,3 +1,11 @@
+function createDOMElement(type, classes = '', content = '') {
+    if (!type) return;
+    let DOMElement = document.createElement(type);
+    if (classes) DOMElement.classList.add(classes);
+    DOMElement.textContent = content;
+    return DOMElement;
+}
+
 // STEP 3: Create Article cards.
 // -----------------------
 // Send an HTTP GET request to the following address: https://lambda-times-backend.herokuapp.com/articles
@@ -17,3 +25,34 @@
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
+
+
+function Card(article) {
+    let cardDiv = createDOMElement('div', 'card');
+    let headline = createDOMElement('div', 'headline', article.headline);
+    let authorDiv = createDOMElement('div', 'author');
+    let imgContainer = createDOMElement('div', 'img-container');
+    let authorImg = createDOMElement('img');
+    authorImg.src = article.authorPhoto;
+    let authorName = createDOMElement('span', '', `By ${article.authorName}`);
+
+    cardDiv.appendChild(headline);
+    cardDiv.appendChild(authorDiv);
+    authorDiv.appendChild(imgContainer);
+    authorDiv.appendChild(authorName);
+    imgContainer.appendChild(authorImg);
+    return cardDiv;
+}
+
+async function buildCards() {
+    let cardsContainer = document.querySelector('.cards-container');
+    let res = await axios.get('https://lambda-times-backend.herokuapp.com/articles');
+    articlesObj = res.data.articles;
+    for (let key in articlesObj) {
+        articlesObj[key].forEach(article => {
+            cardsContainer.appendChild(Card(article));
+        })
+    }
+};
+
+buildCards();
